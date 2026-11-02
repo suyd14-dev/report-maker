@@ -60,7 +60,7 @@ th{background:var(--sh);font-weight:700}
 .pb h3{font:700 27px/1.4 'KoPub Dotum',sans-serif;margin:.9em 0 .3em}
 .pb ul,.pb ol{margin:0 0 .6em;padding-left:1.5em}
 .ft{height:96px;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:20px}
-.ft img{height:var(--mh,70px);width:auto;max-width:320px;object-fit:contain;display:block}
+.ft img{width:auto;display:block} /* 높이만 JS로 정하고 가로는 원본 비율대로 자동 */
 .ft img[hidden]{display:none}
 .ft.hm .fx:empty{display:none}
 .fx{font:700 30px 'KoPub Dotum',sans-serif;letter-spacing:.08em;text-align:center;min-width:220px}
@@ -267,8 +267,15 @@ $('#save').onclick=async()=>{
 };
 
 /* 꼬리말 이미지 (모든 쪽에 같은 이미지) */
+/* 꼬리말 이미지는 원본 가로세로 비율을 지키도록 높이만 지정 (너무 긴 로고는 칸 너비 안으로 줄임) */
+function sizeMark(i){const a=(i.naturalWidth/i.naturalHeight)||1;i.style.height=Math.min(MH,1000/a)+'px'}
 function applyMark(){
-  P.querySelectorAll('.page').forEach(p=>{p.style.setProperty('--mh',MH+'px');p.querySelector('.ft').classList.toggle('hm',!!MK);const i=p.querySelector('.ft img');if(MK){i.src=MK;i.hidden=false}else{i.removeAttribute('src');i.hidden=true}});
+  P.querySelectorAll('.page').forEach(p=>{
+    p.querySelector('.ft').classList.toggle('hm',!!MK);
+    const i=p.querySelector('.ft img');
+    if(MK){i.onload=()=>sizeMark(i);if(i.getAttribute('src')!==MK)i.src=MK;i.hidden=false;sizeMark(i)}
+    else{i.removeAttribute('src');i.hidden=true}
+  });
   $('#mksz').hidden=$('#mkdel').hidden=!MK;$('#mksz').value=MH;
 }
 $('#mkbtn').onclick=()=>$('#mkf').click();
