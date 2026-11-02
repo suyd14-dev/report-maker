@@ -62,6 +62,7 @@ th{background:var(--sh);font-weight:700}
 .ft{height:96px;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:20px}
 .ft img{height:var(--mh,70px);width:auto;max-width:320px;object-fit:contain;display:block}
 .ft img[hidden]{display:none}
+.ft.hm .fx:empty{display:none}
 .fx{font:700 30px 'KoPub Dotum',sans-serif;letter-spacing:.08em;text-align:center;min-width:220px}
 </style>
 </head>
@@ -267,7 +268,7 @@ $('#save').onclick=async()=>{
 
 /* 꼬리말 이미지 (모든 쪽에 같은 이미지) */
 function applyMark(){
-  P.querySelectorAll('.page').forEach(p=>{p.style.setProperty('--mh',MH+'px');const i=p.querySelector('.ft img');if(MK){i.src=MK;i.hidden=false}else{i.removeAttribute('src');i.hidden=true}});
+  P.querySelectorAll('.page').forEach(p=>{p.style.setProperty('--mh',MH+'px');p.querySelector('.ft').classList.toggle('hm',!!MK);const i=p.querySelector('.ft img');if(MK){i.src=MK;i.hidden=false}else{i.removeAttribute('src');i.hidden=true}});
   $('#mksz').hidden=$('#mkdel').hidden=!MK;$('#mksz').value=MH;
 }
 $('#mkbtn').onclick=()=>$('#mkf').click();
