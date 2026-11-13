@@ -506,7 +506,7 @@ function sets(){
  ${g?`<h4>${esc(g.name)}</h4><div class="ics">${IC.map(i=>`<button type="button" class="ic ${i==ic?'on':''}" data-i="${i}">${i}</button>`).join('')}</div>
  <label>헤더 이미지<input type="file" name="img" accept="image/*"></label>
  <label>D-DAY 시작일 (첫날 = D+1)<input type="date" name="dday" value="${g.dday||''}"></label>`:''}
- <div class="bt"><button type="button" id="lo" class="dg">로그아웃</button><button type="button" class="cl">닫기</button><button class="pr">저장</button></div></form>`);
+ <p style="font-size:11px;color:var(--mut);margin:8px 0 0">버전 2026-11-13 · 스와이프 수정판</p><div class="bt"><button type="button" id="lo" class="dg">로그아웃</button><button type="button" class="cl">닫기</button><button class="pr">저장</button></div></form>`);
  const f=d.querySelector('form');
  f.font.value=(()=>{try{return localStorage.f||'s'}catch{return 's'}})();
  d.querySelector('.ics')?.addEventListener('click',e=>{const b=e.target.closest('.ic');if(!b)return;ic=b.dataset.i;d.querySelectorAll('.ic').forEach(x=>x.classList.toggle('on',x==b))});
