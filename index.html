@@ -506,7 +506,8 @@ function sets(){
  ${g?`<h4>${esc(g.name)}</h4><div class="ics">${IC.map(i=>`<button type="button" class="ic ${i==ic?'on':''}" data-i="${i}">${i}</button>`).join('')}</div>
  <label>헤더 이미지<input type="file" name="img" accept="image/*"></label>
  <label>D-DAY 시작일 (첫날 = D+1)<input type="date" name="dday" value="${g.dday||''}"></label>`:''}
- <p style="font-size:11px;color:var(--mut);margin:8px 0 0">버전 2026-11-13 · 스와이프 수정판</p><div class="bt"><button type="button" id="lo" class="dg">로그아웃</button><button type="button" class="cl">닫기</button><button class="pr">저장</button></div></form>`);
+ <p id="vi" style="font-size:11px;color:var(--mut);margin:8px 0 0;word-break:break-all">버전 2026-11-13b</p><div class="bt"><button type="button" id="lo" class="dg">로그아웃</button><button type="button" class="cl">닫기</button><button class="pr">저장</button></div></form>`);
+ try{const bd=$('#body'),c1=getComputedStyle(bd),w=bd.querySelector('.wd'),wk=bd.querySelector('.wk');d.querySelector('#vi').textContent+=` | body.class=${document.body.className||'-'} #body.class=${bd.className||'-'} display=${c1.display} gap=${c1.gap} wd=${w?getComputedStyle(w).display:'-'} wk=${wk?Math.round(wk.getBoundingClientRect().height):'-'} w=${innerWidth} dpr=${devicePixelRatio} cur=${cur}`}catch{}
  const f=d.querySelector('form');
  f.font.value=(()=>{try{return localStorage.f||'s'}catch{return 's'}})();
  d.querySelector('.ics')?.addEventListener('click',e=>{const b=e.target.closest('.ic');if(!b)return;ic=b.dataset.i;d.querySelectorAll('.ic').forEach(x=>x.classList.toggle('on',x==b))});
@@ -620,8 +621,8 @@ onAuthStateChanged(auth,async u=>{
   if(Math.abs(dx)<70||Math.abs(dx)<Math.abs(dy)*1.8||Date.now()-s.t>800)return;
   const ids=['all',...G.map(g=>g.id)],i=ids.indexOf(cur),n=i+(dx<0?1:-1);if(i<0||n<0||n>=ids.length)return;
   cur=ids[n];flt.clear();render();
-  bd.style.setProperty('--sx',(dx<0?40:-40)+'px');bd.classList.remove('swp');void bd.offsetWidth;bd.classList.add('swp');
-  $('#tabs .on')?.scrollIntoView({inline:'center',block:'nearest'})},{passive:true})})();
+  try{bd.animate([{transform:`translateX(${dx<0?40:-40}px)`,opacity:.3},{transform:'none',opacity:1}],{duration:200,easing:'ease-out'})}catch{}
+  try{const tb=$('#tabs'),on=tb.querySelector('.on');if(on)tb.scrollLeft=on.offsetLeft-(tb.clientWidth-on.offsetWidth)/2}catch{}},{passive:true})})();
 /* 평면 이모지(Twemoji): 화면에 보이는 이모지 글자를 이미지로 바꿔 표시. 저장 데이터는 그대로 */
 (()=>{const tw=window.twemoji;if(!tw)return;let fail=false,q=0;
  const B='https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/';
